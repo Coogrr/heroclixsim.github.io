@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <div>
+    <label>Attack Roll Parameters</label>
+    <div class="Die Inputs">
+        <div>
+          <label>Target</label>
+          <input type="number" name="attr_click_max">
+        </div>
+        <div>
+          <label>Opposing Prob</label>
+          <input type="number" name="attr_attack_current">
+        </div>
+        <div>
+          <label>Your Prob</label>
+          <input type="number" name="attr_attack_current_max">
+        </div>
+        <div>
+          <label>Opposing 1d6 Prob</label>
+          <input type="number" name="attr_damage_current">
+        </div>
+        <div>
+          <label>Your 1d6 Prob</label>
+          <input type="number" name="attr_damage_current">
+        </div>
+    </div>
+    <button onclick="simulate()" name="simulate">Perform Simulation</button>
+    <div>
+      <div>
+        <label>Percentage To Hit</label>
+        <input type="number" id="percenttohit" readonly="readonly">
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    averageresult = 0;
+
+    function summingResults(result){
+        averageresult+=result;
+    }
+
+    var simulate = function(){
+    // See https://aka.ms/new-console-template for more information
+    dice1 = 0;
+    dice2 = 0;
+    
+    
+
+    successful = 0;
+    
+    target=9;
+    opposingprob=1;
+    yourprob=3;
+    
+    results = new int[5];
+    
+    
+    for (z=0; z<=4; z++){
+        opposingprob=z;
+    for (j=0; j<=4; j++){
+        yourprob=j;
+    for (l=0; l<1; l++){
+    
+    for (k=0; k<5; k++){
+    
+    
+    
+    for (i=0; i<1000000; i++){
+    
+    currentopposingprob = opposingprob;
+    currentyourprob = yourprob;
+    
+    
+    
+    dice1 = Math.floor(Math.random() * 6) + 1;
+    dice2 = Math.floor(Math.random() * 6) + 1;
+    
+    total = dice1 + dice2;
+    
+    while (currentopposingprob > 0 || currentyourprob > 0) {
+    if (total >= target && currentopposingprob > 0){
+        dice1 = Math.floor(Math.random() * 6) + 1;
+        dice2 = Math.floor(Math.random() * 6) + 1;
+    
+        total = dice1 + dice2;
+        currentopposingprob--;
+    }
+    else if (total < target && currentyourprob == 0){
+        break;
+    }
+    if (total < target && currentyourprob > 0){
+        dice1 = Math.floor(Math.random() * 6) + 1;
+        dice2 = Math.floor(Math.random() * 6) + 1;
+    
+        total = dice1 + dice2;
+        currentyourprob--;
+    }
+    else if (total >= target && currentopposingprob == 0){
+        break;
+    }
+    }
+    
+    if (total >= target){
+        successful++;
+    }
+    
+    }
+    
+    
+    results[k] = successful;
+    
+    
+    
+    successful=0;
+    }
+    
+    results.forEach(summingResults());
+    averageresult = averageresult / results.Count();
+    document.getElementById("percenttohit").innerHTML = averageresult + "%";
+    averageresult=0;
+    }
+    }
+    }
+    }
+ 
+    
+        
+
+  </script>
+</html>
