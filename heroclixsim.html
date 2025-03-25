@@ -109,8 +109,9 @@
     }
     console.log("Summing Results")
     results.forEach(summingResults);
+    console.log("Results Summed")
     averageresult = averageresult / results.length;
-    document.getElementById("percenttohit").innerHTML = averageresult + "%";
+    document.getElementById("percenttohit").value = averageresult + "%";
     averageresult=0;
     }
  
