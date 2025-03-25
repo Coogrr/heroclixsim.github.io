@@ -5,23 +5,23 @@
     <div class="Die Inputs">
         <div>
           <label>Target</label>
-          <input type="number" name="attr_click_max">
+          <input type="number" id="targetNumber">
         </div>
         <div>
           <label>Opposing Prob</label>
-          <input type="number" name="attr_attack_current">
+          <input type="number" id="opposingProbs">
         </div>
         <div>
           <label>Your Prob</label>
-          <input type="number" name="attr_attack_current_max">
+          <input type="number" id="yourProbs">
         </div>
         <div>
           <label>Opposing 1d6 Prob</label>
-          <input type="number" name="attr_damage_current">
+          <input type="number" id="opposingOneProbs">
         </div>
         <div>
           <label>Your 1d6 Prob</label>
-          <input type="number" name="attr_damage_current">
+          <input type="number" id="yourOneProbs">
         </div>
     </div>
     <button onclick="simulate()" name="simulate">Perform Simulation</button>
@@ -50,22 +50,14 @@
 
     successful = 0;
     
-    target=9;
-    opposingprob=1;
-    yourprob=3;
+    target=document.getElementById("targetNumber").value;
+    opposingprob=document.getElementById("opposingProbs").value;
+    yourprob=document.getElementById("yourProbs").value;
     
     const results = [];
     
-    
-    for (z=0; z<=4; z++){
-        opposingprob=z;
-    for (j=0; j<=4; j++){
-        yourprob=j;
-    for (l=0; l<1; l++){
-    
+     
     for (k=0; k<5; k++){
-    
-    
     
     for (i=0; i<1000000; i++){
     
@@ -115,14 +107,11 @@
     
     successful=0;
     }
-    
+    console.log("Summing Results")
     results.forEach(summingResults);
     averageresult = averageresult / results.length;
     document.getElementById("percenttohit").innerHTML = averageresult + "%";
     averageresult=0;
-    }
-    }
-    }
     }
  
     
