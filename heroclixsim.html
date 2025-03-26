@@ -1,118 +1,228 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <div>
-    <label>Attack Roll Parameters</label>
-    <div class="Die Inputs">
-        <div>
-          <label>Target</label>
-          <input type="number" id="targetNumber">
-        </div>
-        <div>
-          <label>Opposing Prob</label>
-          <input type="number" id="opposingProbs">
-        </div>
-        <div>
-          <label>Your Prob</label>
-          <input type="number" id="yourProbs">
-        </div>
+
+<head>
+  <title>HeroClix Probability Calculator</title>
+  <style>
+    div,
+    h1,
+    .note {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    .note {
+      font-style: italic;
+      font-size: smaller;
+      padding: 10px;
+    }
+
+    td {
+      padding: 3px;
+    }
+
+    .actionButton {
+      padding: 5px;
+      margin: 10px;
+    }
+
+
+
+    input,
+    button {
+      font-size: 120%;
+    }
+
+    .result input {
+      border: none;
+      background-color: #000000;
+      color: #ffffff;
+      font-size: 150%;
+      border-radius: 8px;
+      padding: 5px;
+      max-width: 100px;
+      text-align: center;
+    }
+
+    table tr td input {
+      width: 60px;
+
+    }
+
+    .wrapper {
+      display: grid;
+      grid-template-columns: 200px auto;
+
+      column-gap: 20px;
+
+    }
+
+    .wrapper .decoration {
+      padding: 10px;
+      text-align: center;
+    }
+
+    img {
+      max-width: 150px;
+      padding-top: 30px;
+    }
+
+    .content {
+      max-width: 60%;
+    }
+
+    @media only screen and (max-width: 450px) {
+      .wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .wrapper .decoration {
+        text-align: left;
+      }
+
+      img {
+        max-width: 75px;
+        padding-top: 0px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Attack Roll Parameters</h1>
+  <div class="wrapper">
+    <div class="content">
+      <h3>Die Inputs</h3>
+      <table>
+        <tr>
+          <td><label>Target</label></td>
+          <td><input type="number" id="targetNumber"></td>
+        </tr>
+        <tr>
+          <td><label>Opposing Prob</label></td>
+          <td><input type="number" id="opposingProbs"></td>
+        </tr>
+        <tr>
+          <td><label>Your Prob</label></td>
+          <td><input type="number" id="yourProbs"></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center"><button class="actionButton" onclick="simulate()" name="simulate">Perform
+              Simulation</button></td>
+        </tr>
+      </table>
+
+
+
     </div>
-    <button onclick="simulate()" name="simulate">Perform Simulation</button>
-    <div>
+    <div class="decoration"><img src="dice.png" alt="Two 6-sided die" />
       <div>
-        <label>Percentage To Hit</label>
-        <input type="text" id="percenttohit" readonly="readonly">
+        <div>
+          <h3>Percentage To Hit</h3>
+          <div class="result">
+            <input type="text" id="percenttohit" readonly="readonly">
+          </div>
+        </div>
       </div>
     </div>
-    <label>If it shows 100% it's because I have it set to round to 2 decimal places, read as above 99%. Percents are off by an average of 0.1% compared to calculated, as far as I can tell the differences between options are almost always large enough this doesn't matter.</label>
   </div>
-
+  <p class="note">If it shows 100% it's because I have it set to round to 2 decimal places, read as above 99%. Percents
+    are off
+    by an average of 0.1% compared to calculated, as far as I can tell the differences between options are almost
+    always large enough this doesn't matter.</p>
   <script type="text/javascript">
 
     averageresult = 0;
 
-    function summingResults(result){
-        averageresult+=result;
+    function summingResults(result) {
+      averageresult += result;
     }
 
-    var simulate = function(){
-    // See https://aka.ms/new-console-template for more information
-    dice1 = 0;
-    dice2 = 0;
-    
-    
+    var simulate = function () {
+      // See https://aka.ms/new-console-template for more information
+      dice1 = 0;
+      dice2 = 0;
 
-    successful = 0;
-    
-    target=document.getElementById("targetNumber").value;
-    opposingprob=document.getElementById("opposingProbs").value;
-    yourprob=document.getElementById("yourProbs").value;
-    
-    const results = [];
-    
-     
-    for (k=0; k<5; k++){
-    
-    for (i=0; i<1000000; i++){
-    
-    currentopposingprob = opposingprob;
-    currentyourprob = yourprob;
-    
-    
-    
-    dice1 = Math.floor(Math.random() * 6) + 1;
-    dice2 = Math.floor(Math.random() * 6) + 1;
-    
-    total = dice1 + dice2;
-    
-    while (currentopposingprob > 0 || currentyourprob > 0) {
-    if (total >= target && currentopposingprob > 0){
-        dice1 = Math.floor(Math.random() * 6) + 1;
-        dice2 = Math.floor(Math.random() * 6) + 1;
-    
-        total = dice1 + dice2;
-        currentopposingprob--;
+
+
+      successful = 0;
+
+      target = document.getElementById("targetNumber").value;
+      opposingprob = document.getElementById("opposingProbs").value;
+      yourprob = document.getElementById("yourProbs").value;
+
+      const results = [];
+
+
+      for (k = 0; k < 5; k++) {
+
+        for (i = 0; i < 1000000; i++) {
+
+          currentopposingprob = opposingprob;
+          currentyourprob = yourprob;
+
+
+
+          dice1 = Math.floor(Math.random() * 6) + 1;
+          dice2 = Math.floor(Math.random() * 6) + 1;
+
+          total = dice1 + dice2;
+
+          while (currentopposingprob > 0 || currentyourprob > 0) {
+            if (total >= target && currentopposingprob > 0) {
+              dice1 = Math.floor(Math.random() * 6) + 1;
+              dice2 = Math.floor(Math.random() * 6) + 1;
+
+              total = dice1 + dice2;
+              currentopposingprob--;
+            }
+            else if (total < target && currentyourprob == 0) {
+              break;
+            }
+            if (total < target && currentyourprob > 0) {
+              dice1 = Math.floor(Math.random() * 6) + 1;
+              dice2 = Math.floor(Math.random() * 6) + 1;
+
+              total = dice1 + dice2;
+              currentyourprob--;
+            }
+            else if (total >= target && currentopposingprob == 0) {
+              break;
+            }
+          }
+
+          if (total >= target) {
+            successful++;
+          }
+
+        }
+
+
+        results[k] = successful;
+
+
+
+        successful = 0;
+      }
+      console.log("Summing Results")
+      results.forEach(summingResults);
+      console.log("Results Summed")
+      averageresult = averageresult / results.length;
+      percentSuccessful = averageresult / 100;
+      percentSuccessful = Math.round(percentSuccessful);
+      percentSuccessful = percentSuccessful / 100;
+      document.getElementById("percenttohit").value = percentSuccessful + "%";
+      averageresult = 0;
     }
-    else if (total < target && currentyourprob == 0){
-        break;
-    }
-    if (total < target && currentyourprob > 0){
-        dice1 = Math.floor(Math.random() * 6) + 1;
-        dice2 = Math.floor(Math.random() * 6) + 1;
-    
-        total = dice1 + dice2;
-        currentyourprob--;
-    }
-    else if (total >= target && currentopposingprob == 0){
-        break;
-    }
-    }
-    
-    if (total >= target){
-        successful++;
-    }
-    
-    }
-    
-    
-    results[k] = successful;
-    
-    
-    
-    successful=0;
-    }
-    console.log("Summing Results")
-    results.forEach(summingResults);
-    console.log("Results Summed")
-    averageresult = averageresult / results.length;
-    percentSuccessful = averageresult / 100;
-    percentSuccessful = Math.round(percentSuccessful);
-    percentSuccessful = percentSuccessful / 100;
-    document.getElementById("percenttohit").value = percentSuccessful + "%";
-    averageresult=0;
-    }
- 
-    
-        
+
+
+
 
   </script>
+</body>
+
 </html>
